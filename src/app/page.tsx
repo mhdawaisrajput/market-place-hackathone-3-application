@@ -21,26 +21,11 @@ interface Car {
 }
 
 const HomePage = () => {
-  // const [cars, setCars] = useState([]);
-  // const [searchTerm, setSearchTerm] = useState("");
-  // const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  // const [showWishlist, setShowWishlist] = useState(false);
-
   const [cars, setCars] = useState<Car[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
     const [showWishlist, setShowWishlist] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchCars = async () => {
-  //     const result = await client.fetch('*[_type == "car"]');
-  //     setCars(result);
-  //   };
-  //   fetchCars();
-  // }, []);
-
-
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -62,10 +47,6 @@ const HomePage = () => {
     };
     fetchCars();
   }, []);
-
-
-
-
 
   const filteredCars = cars.filter(
     (car: any) =>
