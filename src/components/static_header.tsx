@@ -1,7 +1,8 @@
 "use client";
 
-import { Bell, Heart, Search } from "lucide-react";
+import { Heart, House, Search } from "lucide-react";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function StaticHeader() {
   return (
@@ -26,9 +27,12 @@ export default function StaticHeader() {
           <button type="button" className="p-2 rounded-full border border-gray-300">
             <Heart className="text-gray-500" />
           </button>
+
+          <Link href="/">
           <button type="button" className="p-2 rounded-full border border-gray-300">
-            <Bell className="text-gray-500" />
+            <House className="text-gray-500" />
           </button>
+          </Link>
 
           <SignedOut>
             <button type="button" className="text-blue-600">Sign In</button>

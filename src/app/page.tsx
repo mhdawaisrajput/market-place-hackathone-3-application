@@ -8,19 +8,64 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 
+// Define the Car interface for type safety
+interface Car {
+  _id: string;
+  name: string;
+  type: string;
+  image?: any; // You might refine this type based on your image schema
+  fuelCapacity?: number;
+  transmission?: string;
+  seatingCapacity?: number;
+  pricePerDay?: number;
+}
+
 const HomePage = () => {
-  const [cars, setCars] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  const [showWishlist, setShowWishlist] = useState(false);
+  // const [cars, setCars] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  // const [showWishlist, setShowWishlist] = useState(false);
+
+  const [cars, setCars] = useState<Car[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+    const [showWishlist, setShowWishlist] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   const fetchCars = async () => {
+  //     const result = await client.fetch('*[_type == "car"]');
+  //     setCars(result);
+  //   };
+  //   fetchCars();
+  // }, []);
+
+
 
   useEffect(() => {
     const fetchCars = async () => {
-      const result = await client.fetch('*[_type == "car"]');
-      setCars(result);
+      try {
+        const result = await client.fetch('*[_type == "car"]');
+        // Explicitly check if the returned array is empty
+        if (!result || result.length === 0) {
+          throw new Error(" No cars found. Please try again later. If the issue persists, it might be a temporary problem with the server or data fetching.");
+        }
+        setCars(result);
+      } catch (err: unknown) {
+        console.error("Failed to fetch cars:", err);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      }
     };
     fetchCars();
   }, []);
+
+
+
+
 
   const filteredCars = cars.filter(
     (car: any) =>
@@ -48,6 +93,16 @@ const HomePage = () => {
         toggleWishlist={toggleWishlist}
         wishlistCount={wishlistCars.length} // Pass wishlist count
       />
+
+      {/* Error UI below */}
+      {error && (
+        <div className="flex justify-center items-center py-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong className="font-bold">Error:</strong>
+            <span className="block sm:inline">{error}</span>
+          </div>
+        </div>
+      )}
 
       {showWishlist ? (
         <div className="px-4 sm:px-6 lg:px-8 py-8 mx-auto max-w-screen-2xl">

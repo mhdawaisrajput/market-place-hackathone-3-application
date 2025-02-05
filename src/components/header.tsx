@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Bell, Heart, Search } from "lucide-react";
+import { House, Heart, Search } from "lucide-react";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"; // Import Clerk components
+import Link from "next/link";
 
 interface HeaderProps {
   setSearchTerm: (term: string) => void;
@@ -53,9 +54,11 @@ export default function Header({
               <span className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-white"></span>
             )}
           </button>
+          <Link href="/">
           <button className="p-2 rounded-full border border-gray-300">
-            <Bell className="text-gray-500" />
+          <House className="text-gray-500" />
           </button>
+          </Link>
 
           <SignedOut>
             <SignInButton />

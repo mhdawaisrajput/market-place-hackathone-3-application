@@ -216,7 +216,8 @@ export default function DynamicPage({ params }: Params) {
             {/* Car Image Section */}
             {carData.image && (
               <div className="flex-shrink-0 w-full md:w-1/2 overflow-hidden rounded-xl shadow-md">
-                <Image width={490} height={380}
+                <Image
+                width={490} height={380}
                   src={urlFor(carData.image).url()}
                   alt={carData.name}
                   className="w-[490px] h-[380px] rounded-lg"
